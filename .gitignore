@@ -1,0 +1,7 @@
+# credentials neo4j
+credentials.txt
+
+# dataset
+candidates.csv
+jobs.csv
+applications.csv
