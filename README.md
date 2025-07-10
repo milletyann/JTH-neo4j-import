@@ -11,19 +11,20 @@
 - Save the credentials .txt file in the root folder of the project
 - In parallel, you can connect to the instance in the `Neo4j Desktop` > `Neo4j Browser` app to follow the changes and query the graph
 - Run the following scripts in this order:
-  - Create the nodes (Candidate, Event, Job) and link them.
+
+Create the nodes (Candidate, Event, Job) and link them.
 
 ```bash
 python3 graph_build.py
 ```
 
-  - Compute the Allen predicates between the Event nodes.
+Compute the Allen predicates between the Event nodes.
 
 ```bash
 python3 allen.py
 ```
 
-  - Complete the nodes properties.
+Complete the nodes properties.
 
 ```bash
 python3 enrich_nodes.py
