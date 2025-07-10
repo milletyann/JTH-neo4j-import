@@ -17,13 +17,13 @@
 python3 graph_build.py
 ```
 
-    - Compute the Allen predicates between the Event nodes.
+  - Compute the Allen predicates between the Event nodes.
 
 ```bash
 python3 allen.py
 ```
 
-    - Complete the nodes properties.
+  - Complete the nodes properties.
 
 ```bash
 python3 enrich_nodes.py
