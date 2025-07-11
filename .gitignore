@@ -2,6 +2,12 @@
 credentials.txt
 
 # dataset
-candidates.csv
-jobs.csv
-applications.csv
+JTH/candidates.csv
+JTH/jobs.csv
+JTH/applications.csv
+JTH/*
+
+# Autre
+.DS_Store
+__pycache__/
+__pycache__/*
