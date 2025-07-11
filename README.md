@@ -1,5 +1,7 @@
 # Import JTH Dataset in Neo4j with Python
 
+A graph dump is contained in /backups/ of each branch (if not the graph is not completely built on this branch).
+
 ### Branch naming
 
 The graph can be constructed in several different ways:
