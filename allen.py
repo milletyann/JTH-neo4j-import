@@ -1,9 +1,8 @@
-from neo4j import GraphDatabase
 import pandas as pd
 from datetime import datetime
 from tqdm import tqdm
 from itertools import combinations
-from credentials import read_instance_credentials
+from connect_to_db import connect_to_db
 
 # Récup events
 def fetch_events(tx):
@@ -54,17 +53,37 @@ def create_allen_relationships(tx, edges):
             MERGE (e1)-[r:%s]->(e2)
         """ % edge["relation"], from_id=edge["from_id"], to_id=edge["to_id"])
 
-if __name__ == '__main__':
-    creds = read_instance_credentials()
-    uri = creds["NEO4J_URI"]
-    username = creds["NEO4J_USERNAME"]
-    password = creds["NEO4J_PASSWORD"]
+# La fonction à utiliser dans run.py
+def allen(driver):
+    with driver.session() as session:
+        df_events = session.execute_read(fetch_events)
 
-    driver = GraphDatabase.driver(
-        uri, 
-        auth=(username, password),
-        connection_timeout=120
-    )
+    df_events["timestamp"] = pd.to_datetime(df_events["timestamp"])
+    print(f"Nombre total d'events récupérés: {len(df_events)}")
+
+    grouped = df_events.groupby("application_id")
+    all_app_ids = list(grouped.groups.keys())
+
+    batch_size = 100
+    num_batches = (len(all_app_ids) + batch_size - 1) // batch_size
+
+    for batch_idx in tqdm(range(num_batches), desc="Processing application_id batches"):
+        batch_app_ids = all_app_ids[batch_idx*batch_size : (batch_idx+1)*batch_size]
+        edges_batch = []
+
+        for app_id in batch_app_ids:
+            group_df = grouped.get_group(app_id)
+            if len(group_df) >= 2:
+                edges = compute_edges(group_df)
+                edges_batch.extend(edges)
+
+        if edges_batch:
+            with driver.session() as session:
+                session.execute_write(create_allen_relationships, edges_batch)
+    
+# Ce qui se lance quand on run les fichiers un par un
+if __name__ == '__main__':
+    driver = connect_to_db(db_loc='local')
     
     # Récup tous les events
     with driver.session() as session:

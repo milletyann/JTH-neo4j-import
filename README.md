@@ -6,12 +6,14 @@ In this branch, the graph model contains:
 
 - 1 type of Event nodes (e:Event), with 1 type of relation (r:HAS_EVENT).
 - Every information is contained in the nodes properties.
-- The graph is stored in a free AuraDB instance (only the difference in the code between same config `local` and `cloud` is the way to connect to the storage instance).
+
+
+The graph is stored in a free AuraDB instance (only the difference in the code between same config `local` and `cloud` is the way to connect to the storage instance)
 
 ### Requirements
 
 - JTH Dataset with applications.csv (history of applications), candidates.csv, jobs.csv.
-- Python libraries: neo4j, tqdm, math, pandas, datetime, itertools, numpy.
+- Python libraries: neo4j, graphdatascience, tqdm, math, pandas, datetime, itertools, numpy.
 
 ### How to build it
 

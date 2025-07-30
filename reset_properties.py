@@ -1,7 +1,6 @@
-from neo4j import GraphDatabase
 import math
 from tqdm import tqdm
-from credentials import read_instance_credentials
+from connect_to_db import connect_to_db
 
 BATCH_SIZE = 500
 
@@ -49,19 +48,15 @@ def clear_node_properties(driver, label, id_key):
         with driver.session() as session:
             session.execute_write(clear_properties_batch, label, id_key, batch_ids)
 
-if __name__ == "__main__":
-    creds = read_instance_credentials()
-    uri = creds["NEO4J_URI"]
-    username = creds["NEO4J_USERNAME"]
-    password = creds["NEO4J_PASSWORD"]
+def reset_properties(driver):
+    clear_node_properties(driver, "Candidate", "candidate_id")
+    clear_node_properties(driver, "Job", "job_id")
+    
 
-    driver = GraphDatabase.driver(uri, auth=(username, password))
+if __name__ == "__main__":
+    driver = connect_to_db(db_loc='local')
 
     clear_node_properties(driver, "Candidate", "candidate_id")
     clear_node_properties(driver, "Job", "job_id")
 
     driver.close()
-
-
-
-

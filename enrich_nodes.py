@@ -1,8 +1,7 @@
-from neo4j import GraphDatabase
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from credentials import read_instance_credentials
+from connect_to_db import connect_to_db
 
 def preprocess_candidates(df):
     df = df.copy()
@@ -13,16 +12,12 @@ def preprocess_candidates(df):
     df["job_category"] = df["job_category"].fillna("").apply(
         lambda x: [s.strip() for s in x.split(";") if s.strip()] if x else []
     )
-    df["contract_type"] = df["contract_type"].fillna("").apply(
-        lambda x: [s.strip() for s in x.split(";") if s.strip()] if x else []
-    )
     df["create_date"] = pd.to_datetime(df["create_date"], errors="coerce").dt.strftime("%Y-%m-%d")
     df["zipcode"] = df["zipcode"].apply(
         lambda x: int(x) if pd.notnull(x) and str(x).strip() != "" else None
     )
     df["actual_salary"] = df["actual_salary"].replace({np.nan: None})
     df["actual_daily_salary"] = df["actual_daily_salary"].replace({np.nan: None})
-    df["applicant"] = df["applicant"].fillna(False).astype(bool)
 
     return df
     
@@ -33,13 +28,12 @@ def preprocess_jobs(df):
         lambda x: [s.strip() for s in x.split(";") if s.strip()] if x else []
     )
     df["create_date"] = pd.to_datetime(df["create_date"], errors="coerce").dt.strftime("%Y-%m-%d")
-    df["start_date"] = pd.to_datetime(df["start_date"], errors="coerce").dt.strftime("%Y-%m-%d")
+    #df["start_date"] = pd.to_datetime(df["start_date"], errors="coerce").dt.strftime("%Y-%m-%d")
     df["zipcode"] = df["zipcode"].apply(
         lambda x: int(x) if pd.notnull(x) and str(x).strip() != "" else None
     )
     df["salary"] = df["salary"].replace({np.nan: None})
     df["daily_rate"] = df["daily_rate"].replace({np.nan: None})
-    df["useful_job"] = df["useful_job"].fillna(False).astype(bool)
 
     return df
 
@@ -78,19 +72,17 @@ def run_batch_update_jobs(driver, df_jobs, batch_size=500):
         with driver.session() as session:
             session.execute_write(update_jobs, df_batch)
 
+# La fonction à utiliser dans run.py
+def enrich_nodes(driver):
+    df_candidates, df_jobs = preprocess_candidates(pd.read_csv("JTH/candidates.csv")), preprocess_jobs(pd.read_csv("JTH/jobs.csv"))
+    
+    run_batch_update_cand(driver, df_candidates, batch_size=500)
+    run_batch_update_jobs(driver, df_jobs, batch_size=500)
+    
+# Ce qui se lance quand on run les fichiers un par un
 if __name__ == '__main__':
-    print("Connecting to AuraDB instance...")
-    creds = read_instance_credentials()
-    uri = creds["NEO4J_URI"]
-    username = creds["NEO4J_USERNAME"]
-    password = creds["NEO4J_PASSWORD"]
-
-    driver = GraphDatabase.driver(
-        uri,
-        auth=(username, password),
-        connection_timeout=120
-    )
-    df_candidates, df_jobs = preprocess_candidates(pd.read_csv("candidates.csv")), preprocess_jobs(pd.read_csv("jobs.csv"))
+    driver = connect_to_db(db_loc='local')
+    df_candidates, df_jobs = preprocess_candidates(pd.read_csv("JTH/candidates.csv")), preprocess_jobs(pd.read_csv("JTH/jobs.csv"))
     
     run_batch_update_cand(driver, df_candidates, batch_size=500)
     run_batch_update_jobs(driver, df_jobs, batch_size=500)

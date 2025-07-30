@@ -2,7 +2,7 @@ import pandas as pd
 
 def eventify():
     event_columns = {
-        "ApplicationEntry": "application_entry_date",
+        "SpontaneousApplication": "spontaneous_application_date",
         "Shortlist": "shortlist_date",
         "Qualification": "qualification_date",
         "ResumeSent": "resume_sent_to_company_date",
@@ -12,10 +12,10 @@ def eventify():
         "Interview4": "4th_interview_date",
         "JobOfferProposed": "job_offer_proposed_date",
         "JobOfferAccepted": "job_offer_accepted_date",
-        "KO": "KO_date",
+        "EndOfProcess": "end_of_process_date",
     }
 
-    df = pd.read_csv("applications.csv")
+    df = pd.read_csv("JTH/applications.csv")
 
     events = []
     for event_name, col in event_columns.items():
