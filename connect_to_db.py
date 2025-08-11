@@ -1,7 +1,6 @@
 from neo4j import GraphDatabase
 from credentials import read_instance_credentials
 
-
 def connect_to_db(db_loc):
     print("Connecting to AuraDB instance...")
     creds = read_instance_credentials(db_loc)

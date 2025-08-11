@@ -15,3 +15,6 @@ def read_instance_credentials(db_loc):
                 key, value = line.split("=", 1)
                 creds[key.strip()] = value.strip()
     return creds
+
+if __name__ == '__main__':
+    print(read_instance_credentials('local'))
