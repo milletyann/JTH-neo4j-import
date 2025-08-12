@@ -1,5 +1,6 @@
 # credentials neo4j
-credentials.txt
+credentials_local.txt
+credentials_cloud.txt
 
 # dataset
 JTH/*
@@ -12,3 +13,4 @@ JTH/dataset_card.md
 .DS_Store
 __pycache__/
 __pycache__/*
+test.ipynb

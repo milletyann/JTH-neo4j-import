@@ -55,7 +55,7 @@ def create_allen_relationships(tx, edges):
         """ % edge["relation"], from_id=edge["from_id"], to_id=edge["to_id"])
 
 if __name__ == '__main__':
-    creds = read_instance_credentials()
+    creds = read_instance_credentials("cloud")
     uri = creds["NEO4J_URI"]
     username = creds["NEO4J_USERNAME"]
     password = creds["NEO4J_PASSWORD"]

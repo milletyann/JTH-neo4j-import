@@ -1,7 +1,8 @@
-def read_instance_credentials():
+def read_instance_credentials(db_loc):
     creds = {}
+    path = f"credentials_{db_loc}.txt"
 
-    with open("credentials.txt", "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8") as f:
         for line in f:
             # Ignore commentaires ou lignes vides
             line = line.strip()
