@@ -15,19 +15,19 @@ if __name__ == "__main__":
     with driver.session() as session:
         try:
             session.run("CREATE CONSTRAINT n10s_unique_uri FOR (r:Resource) REQUIRE r.uri IS UNIQUE")
-            print("✅ Constraint created successfully.")
+            print("Contrainte réussie.")
         except Neo4jError as e:
             if "already exists" in str(e):
-                print("ℹ️ Constraint already exists.")
+                print("Contrainte existe déjà.")
             else:
-                print(f"❌ Failed to create constraint: {e}")
+                print(f"Création de contrainte ratée: {e}")
         
         try:
             result = session.run("CALL n10s.graphconfig.init()")
-            print("✅ n10s.graphconfig.init() called successfully.")
+            print("Appel réussi à n10s.graphconfig.init().")
             for record in result:
-                print("Returned config:", dict(record))
+                print("Config:", dict(record))
         except Neo4jError as e:
-            print(f"❌ Failed to initialize Neosemantics: {e}")
+            print(f"Initialisation de n10s: {e}")
     
     driver.close()
