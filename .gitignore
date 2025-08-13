@@ -14,3 +14,4 @@ JTH/dataset_card.md
 __pycache__/
 __pycache__/*
 test.ipynb
+*.ttl
