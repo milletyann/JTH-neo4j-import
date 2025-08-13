@@ -2,20 +2,7 @@
 
 ### Branch naming
 
-The graph can be constructed in several different ways:
-
-- one or several event node types
-- add informational nodes instead of keeping data in the node attributes
-
-e.g. :
-
-- `1cXe1j-addnodes` (1 type of candidate nodes, X types of event nodes, 1 type of job nodes, other information stored in additional nodes)
-- `1c1e1j-noaddnodes` (1 type of candidate nodes, 1 type of event nodes, 1 type of job nodes, all other information as node properties)
-- `1cXe1j-alladdnodes` (1 type of candidate nodes, X type of event nodes, 1 type of job nodes, all information are in additional nodes)
-
-The only the difference in the code between same config `local` and `cloud` is the way to connect to the storage instance. `local` supposes that you have Neo4j Community or Entreprise edition installed and running on your machine, `cloud` suppose you have an instance (for instance in AuraDB) running on the cloud.
-
-In both cases, the credentials file of the instance must be named `credentials_local.txt` or `credentials_cloud.txt` and have the format of the example file `credentials_example.txt` in the root folder of this repo.
+In this branch we construct the graph in rdf format
 
 ### Requirements
 

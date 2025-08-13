@@ -13,4 +13,8 @@ JTH/dataset_card.md
 .DS_Store
 __pycache__/
 __pycache__/*
+
+
+*.ttl
 test.ipynb
+results.txt
