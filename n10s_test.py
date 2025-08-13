@@ -5,10 +5,10 @@ from credentials import read_instance_credentials
 # --- Config ---
 creds = read_instance_credentials('local')
 
-NEO4J_URL = creds["NEO4J_URI"]  # or the correct host:port
-AUTH = (creds["NEO4J_USERNAME"], creds["NEO4J_PASSWORD"])    # Replace with your username & password
+NEO4J_URL = creds["NEO4J_URI"]
+AUTH = (creds["NEO4J_USERNAME"], creds["NEO4J_PASSWORD"])
 EXPORT_PATH = "exported_graph.ttl"
-RDF_FORMAT = "Turtle"  # Options: RDF/XML, Turtle, N-Triples, JSON-LD
+RDF_FORMAT = "Turtle"
 
 # --- Cypher to export ---
 cypher_query = """
