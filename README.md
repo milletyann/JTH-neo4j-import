@@ -2,7 +2,9 @@
 
 ### Branch naming
 
-In this branch we construct the graph in rdf format
+In this branch we construct the graph in rdf format, query it (for correctness check) and possibly reconstruct it in an AuraDB instance (good construction check).
+
+Query and AuraDB Reconstruction parts are not working yet.
 
 ### Requirements
 
@@ -11,27 +13,8 @@ In this branch we construct the graph in rdf format
 
 ### How to build it
 
-- Have an AuraDB instance create and empty
-- Save the credentials .txt file in the root folder of the project
-- In parallel, you can connect to the instance in the `Neo4j Desktop` > `Neo4j Browser` app to follow the changes and query the graph
-- Run the following scripts in this order or just run `python3 run.py db_loc` db_loc is either `local`or `cloud`:
-
-Create the nodes (Candidate, Event, Job) and link them.
+Run
 
 ```bash
-python3 graph_build.py
+python3 export_rdf.py
 ```
-
-Compute the Allen predicates between the Event nodes.
-
-```bash
-python3 allen.py
-```
-
-Complete the nodes properties.
-
-```bash
-python3 enrich_nodes.py
-```
-
-- If needed `reset_graph.py` and `reset_properties.py` respectively delete all the graph and removes the properties from Candidate and Job nodes.

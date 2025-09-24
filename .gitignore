@@ -14,6 +14,14 @@ JTH/dataset_card.md
 __pycache__/
 __pycache__/*
 
+# Graphs
+graph.ttl
+graph_saved/*
+graph_saved/
+
+# Rules
+rules.txt
+complex_rules.txt
 
 *.ttl
 test.ipynb
